@@ -1,16 +1,19 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import FavoriteScreen from '../screens/FavoriteScreen';
+import {useTranslation} from 'react-i18next';
 
 const Tab = createBottomTabNavigator();
 
 const TabsNavigator = () => {
-    return (
-        <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Settings" component={FavoriteScreen} />
-        </Tab.Navigator>
-    );
-}
+  const {t} = useTranslation();
 
-export default TabsNavigator
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name={t('tabs.home')} component={HomeScreen} />
+      <Tab.Screen name={t('tabs.favorites')} component={FavoriteScreen} />
+    </Tab.Navigator>
+  );
+};
+
+export default TabsNavigator;

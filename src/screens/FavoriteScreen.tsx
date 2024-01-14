@@ -1,8 +1,14 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React from 'react';
+import {useTranslation} from 'react-i18next';
+import {Text, View} from 'react-native';
 
 const FavoriteScreen = () => {
-    return <View><Text>Favorite!</Text></View>
-}
+  const {t} = useTranslation();
+  return (
+    <View>
+      <Text>{t('favorite.title')}</Text>
+    </View>
+  );
+};
 
 export default FavoriteScreen;
