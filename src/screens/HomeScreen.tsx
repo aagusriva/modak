@@ -1,11 +1,14 @@
+import {Input} from '@rneui/themed';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {ActivityIndicator, Text, View} from 'react-native';
+import {ActivityIndicator, FlatList, Text, View} from 'react-native';
+import CardItem from '../components/CardItem';
 
 const HomeScreen = () => {
   const {t} = useTranslation();
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetchData();
@@ -29,11 +32,24 @@ const HomeScreen = () => {
     setLoading(false);
   };
 
+  const handleOnChange = (search: string) => {
+    setSearch(search);
+  };
+
   if (loading) return <ActivityIndicator />;
 
   return (
     <View>
-      <Text>{t('home.title')}</Text>
+      <Input
+        placeholder={t('home.search.placeholder')}
+        onChangeText={handleOnChange}
+        value={search}
+      />
+      <FlatList
+        data={[1, 2, 3, 4, 5, 6]}
+        renderItem={({item}) => <CardItem />}
+        keyExtractor={item => item.toString()}
+      />
     </View>
   );
 };
