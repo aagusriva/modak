@@ -1,12 +1,9 @@
 {
   "tabs": {
-    "home": "Home",
+    "home": {
+      "home": "Home",
+      "details": "Details"
+    },
     "favorites": "Favorites"
-  },
-  "home": {
-    "title": "Home"
-  },
-  "favorite": {
-    "title": "Favorite"
   }
 }

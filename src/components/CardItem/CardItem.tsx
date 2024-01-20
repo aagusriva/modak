@@ -1,6 +1,6 @@
 import {Icon} from '@rneui/base';
 import React from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import styles from './CardItem.styles';
 
 export type CardProps = {
@@ -8,11 +8,12 @@ export type CardProps = {
   img: string | null;
   title: string;
   author: string;
+  handlePress: () => void;
 };
 
 const CardItem = (props: CardProps) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={props.handlePress}>
       <View style={styles.imageContainer}>
         <Image
           source={{
@@ -34,7 +35,7 @@ const CardItem = (props: CardProps) => {
           <Icon type="material" name="star" color="#666666" size={30} />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

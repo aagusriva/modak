@@ -13,14 +13,15 @@ import {
 import CardItem, {CardProps} from '../components/CardItem/CardItem';
 import {getArticles} from '../api/articles';
 import {debounce} from 'lodash';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 
 const HomeScreen = () => {
   const {t} = useTranslation();
+  const isFocused = useIsFocused();
+  const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [data, setData] = useState<Array<CardProps>>([]);
-  const isFocused = useIsFocused();
   const [searching, setSearching] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const searchBarRef = useRef(null);
@@ -47,11 +48,12 @@ const HomeScreen = () => {
     const resp = await getArticles(pagination, query);
     !searching &&
       (isLoadingMore.current ? setLoadingMore(false) : setLoading(false));
-    const formattedData = resp.map(item => ({
+    const formattedData: CardProps[] = resp.map(item => ({
       id: item.id,
       img: item.thumbnail?.lqip || null,
       title: item.title,
       author: item.artist_title,
+      handlePress: () => handlePressItem(item.id),
     }));
     if (pagination.page === 1 && formattedData.length === 0) {
       setData([]);
@@ -106,6 +108,10 @@ const HomeScreen = () => {
   const handleChangeText = (text: string) => {
     setSearching(true);
     setSearch(text);
+  };
+
+  const handlePressItem = (id: number) => {
+    return navigation.navigate('Details', {params: {id}});
   };
 
   if (loading) return <ActivityIndicator />;
