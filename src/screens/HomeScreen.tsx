@@ -1,9 +1,17 @@
-import {Input} from '@rneui/themed';
+import {SearchBar} from '@rneui/themed';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {ActivityIndicator, FlatList, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  Platform,
+  StyleSheet,
+  View,
+} from 'react-native';
 import CardItem from '../components/CardItem/CardItem';
+import {Icon} from '@rneui/base';
 
 const HomeScreen = () => {
   const {t} = useTranslation();
@@ -40,10 +48,12 @@ const HomeScreen = () => {
 
   return (
     <View>
-      <Input
+      <SearchBar
         placeholder={t('home.search.placeholder')}
         onChangeText={handleOnChange}
         value={search}
+        platform={Platform.OS === 'ios' ? 'ios' : 'android'}
+        containerStyle={styles.searchBar}
       />
       <FlatList
         data={[1, 2, 3, 4, 5, 6]}
@@ -53,5 +63,13 @@ const HomeScreen = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  searchBar: {
+    backgroundColor: 'transparent',
+    width: Dimensions.get('window').width * 0.94,
+    alignSelf: 'center',
+  },
+});
 
 export default HomeScreen;
