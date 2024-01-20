@@ -111,10 +111,10 @@ const HomeScreen = () => {
   };
 
   const handlePressItem = (id: number) => {
-    return navigation.navigate('Details', {params: {id}});
+    return navigation.navigate('Details', {id});
   };
 
-  if (loading) return <ActivityIndicator />;
+  if (loading) return <ActivityIndicator style={{marginTop: 20}} />;
 
   return (
     <View style={styles.container}>

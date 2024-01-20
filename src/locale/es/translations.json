@@ -5,5 +5,10 @@
       "details": "Detalles"
     },
     "favorites": "Favoritos"
+  },
+  "home": {
+    "search":{
+      "placeholder": "Escribe para buscar..."
+    }
   }
 }

@@ -5,5 +5,10 @@
       "details": "Details"
     },
     "favorites": "Favorites"
+  },
+  "home": {
+    "search":{
+      "placeholder": "Type to search..."
+    }
   }
 }

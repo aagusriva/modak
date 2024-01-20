@@ -11,14 +11,20 @@ export type CardProps = {
   handlePress: () => void;
 };
 
+const DEFAULT_IMAGE = require('../../../assets/images/artic.png');
+
 const CardItem = (props: CardProps) => {
   return (
     <TouchableOpacity style={styles.container} onPress={props.handlePress}>
       <View style={styles.imageContainer}>
         <Image
-          source={{
-            uri: props.img || 'https://api.artic.edu/docs/assets/logo.svg',
-          }}
+          source={
+            props.img
+              ? {
+                  uri: props.img,
+                }
+              : DEFAULT_IMAGE
+          }
           style={styles.image}
         />
       </View>

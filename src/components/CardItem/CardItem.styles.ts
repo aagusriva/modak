@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
   },
   image: {
+    width: 60,
     height: '100%',
     resizeMode: 'cover',
     borderRadius: 10,

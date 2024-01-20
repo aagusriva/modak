@@ -29,7 +29,7 @@ export const getArticles = async (
       params: {
         ...pagination,
         q: query,
-        fields: 'id,title,artist_title,thumbnail',
+        fields: 'id,title,artist_title,thumbnail,description',
       },
     });
     return resp.data.data;
@@ -37,4 +37,17 @@ export const getArticles = async (
     console.log(error);
   }
   return [];
+};
+
+export const getArticleById = async (id: number) => {
+  try {
+    const resp = await axios({
+      url: `${API_ARTIC_URL_V1}/artworks/${id}`,
+      method: 'GET',
+    });
+    return resp.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
 };
