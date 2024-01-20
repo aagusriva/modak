@@ -1,6 +1,7 @@
 import {Icon} from '@rneui/base';
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
+import styles from './CardItem.styles';
 
 const CardItem = () => {
   return (
@@ -16,7 +17,7 @@ const CardItem = () => {
       <View style={styles.contentContainer}>
         <View style={styles.dataContainer}>
           <Text style={styles.title}>Title</Text>
-          <Text style={styles.description}>
+          <Text style={styles.description} numberOfLines={2}>
             I am a description a little long for a resume i think
           </Text>
         </View>
@@ -27,59 +28,5 @@ const CardItem = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '90%',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    borderRadius: 10,
-    marginVertical: 10,
-    padding: 10,
-    alignSelf: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
-    height: 120,
-  },
-  imageContainer: {
-    width: '30%',
-  },
-  contentContainer: {
-    width: '60%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  dataContainer: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-  },
-  iconContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  description: {
-    fontSize: 18,
-    fontWeight: 'normal',
-  },
-  image: {
-    width: 100,
-    height: 100,
-    resizeMode: 'cover',
-    borderRadius: 10,
-  },
-});
 
 export default CardItem;

@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ActivityIndicator, FlatList, Text, View} from 'react-native';
-import CardItem from '../components/CardItem';
+import CardItem from '../components/CardItem/CardItem';
 
 const HomeScreen = () => {
   const {t} = useTranslation();
