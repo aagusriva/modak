@@ -2,6 +2,7 @@ import {Icon} from '@rneui/base';
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import styles from './CardItem.styles';
+import { COLORS } from '../../constants/Colors';
 
 export type CardProps = {
   id: number;
@@ -38,7 +39,7 @@ const CardItem = (props: CardProps) => {
           </Text>
         </View>
         <View style={styles.iconContainer}>
-          <Icon type="material" name="star" color="#666666" size={30} />
+          <Icon type="material" name="star-border" color={COLORS.yellow} size={30} />
         </View>
       </View>
     </TouchableOpacity>

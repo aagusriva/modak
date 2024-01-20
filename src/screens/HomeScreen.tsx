@@ -14,6 +14,8 @@ import CardItem, {CardProps} from '../components/CardItem/CardItem';
 import {getArticles} from '../api/articles';
 import {debounce} from 'lodash';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {COLORS} from '../constants/Colors';
+import {Icon} from '@rneui/base';
 
 const HomeScreen = () => {
   const {t} = useTranslation();
@@ -126,6 +128,23 @@ const HomeScreen = () => {
         platform={Platform.OS === 'ios' ? 'ios' : 'android'}
         containerStyle={styles.searchBar}
         showLoading={searching}
+        searchIcon={
+          <Icon
+            type="material"
+            name="search"
+            color={COLORS.secondary}
+            size={30}
+          />
+        }
+        clearIcon={
+          <Icon
+            type="material"
+            name="cancel"
+            color={COLORS.secondary}
+            size={30}
+            onPress={() => setSearch('')}
+          />
+        }
       />
       <FlatList
         data={data}

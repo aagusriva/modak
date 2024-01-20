@@ -5,5 +5,6 @@ export const COLORS = {
     grey: '#EAE6E5',
     primary: '#5B9279',
     secondary: '#8F8073',
-    accent: '#B0FE76'
+    accent: '#B0FE76',
+    yellow: '#F7CE5B'
 }

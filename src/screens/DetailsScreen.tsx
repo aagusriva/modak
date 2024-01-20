@@ -12,6 +12,7 @@ import {
 import {getArticleById} from '../api/articles';
 import RenderHTML from 'react-native-render-html';
 import {Icon} from '@rneui/base';
+import { COLORS } from '../constants/Colors';
 
 const DEFAULT_IMAGE = require('../../assets/images/artic.png');
 
@@ -69,7 +70,7 @@ const DetailsScreen = () => {
         }}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{data.title}</Text>
-          <Icon type="material" name="star" color="#666666" size={30} />
+          <Icon type="material" name="star" color={COLORS.yellow} size={30} />
         </View>
         <Text style={styles.subtitle}>{data.author}</Text>
         <View style={styles.descriptionContainer}>
