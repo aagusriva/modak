@@ -5,7 +5,7 @@ import styles from './CardItem.styles';
 
 export type CardProps = {
   id: number;
-  img: string;
+  img: string | null;
   title: string;
   author: string;
 };
@@ -16,7 +16,7 @@ const CardItem = (props: CardProps) => {
       <View style={styles.imageContainer}>
         <Image
           source={{
-            uri: props.img,
+            uri: props.img || 'https://api.artic.edu/docs/assets/logo.svg',
           }}
           style={styles.image}
         />
