@@ -46,10 +46,10 @@ const DetailsScreen = () => {
     setData(
       resp
         ? {
-            img: resp.thumbnail?.lqip || null,
-            title: resp.title,
-            author: resp.artist_title,
-            description: resp.description,
+            img: `${resp.config.iiif_url}/${resp.data.image_id}/full/843,/0/default.jpg`,
+            title: resp.data.title,
+            author: resp.data.artist_title,
+            description: resp.data.description,
           }
         : null,
     );

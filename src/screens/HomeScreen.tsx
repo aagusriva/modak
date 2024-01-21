@@ -66,32 +66,34 @@ const HomeScreen = () => {
     const resp = await getArticles(pagination, query);
     !searching &&
       (isLoadingMore.current ? setLoadingMore(false) : setLoading(false));
-    const formattedData = resp.map(item => {
-      return {
+    if (resp) {
+      const formattedData = resp.data.map(item => ({
         id: item.id,
-        img: item.thumbnail?.lqip || null,
+        img: `${resp.config.iiif_url}/${item.image_id}/full/200,/0/default.jpg`,
         title: item.title,
         author: item.artist_title,
         handlePress: () => handlePressItem(item.id),
-      };
-    });
-    if (formattedData.length === 0) {
-      // Stop pagination because there are no more results to come
-      setData([]);
-      noMoreResults.current = true;
-    } else {
-      if (pagination.page === 1) {
-        // First render so data are this one, we need to reset the stae
-        setData(formattedData);
+      }));
+      if (formattedData.length === 0) {
+        // Stop pagination because there are no more results to come
+        setData([]);
+        noMoreResults.current = true;
       } else {
-        // Add new data to list at the end becouse user has reached end of list
-        setData(prev => [...prev, ...formattedData]);
+        if (pagination.page === 1) {
+          // First render so data are this one, we need to reset the stae
+          setData(formattedData);
+        } else {
+          // Add new data to list at the end becouse user has reached end of list
+          setData(prev => [...prev, ...formattedData]);
+        }
       }
+    } else {
+      setData([]);
     }
     isLoadingMore.current = false;
     setSearching(false);
   };
-  
+
   /**
    * Handle event to load more data with pagination
    */

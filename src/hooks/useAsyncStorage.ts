@@ -13,7 +13,11 @@ const useAsyncStorage = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    isFocused && fetchFavoritesFromStorage();
+    if (isFocused) {
+      fetchFavoritesFromStorage();
+    } else {
+      setCurrentFavorites([]);
+    }
   }, [isFocused]);
 
   /**
@@ -74,7 +78,7 @@ const useAsyncStorage = () => {
     currentFavorites,
     addNewFavorite,
     deleteFavorite,
-    loading
+    loading,
   };
 };
 

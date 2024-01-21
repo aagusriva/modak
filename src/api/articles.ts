@@ -7,25 +7,25 @@ interface Pagination {
 }
 
 interface ResponseSimpleGet {
-  artist_title: string;
-  id: number;
-  thumbnail: {
-    alt_text: string;
-    height: number;
-    lqip: string;
-    width: number;
+  data: Array<{
+    artist_title: string;
+    id: number;
+    title: string;
+    image_id: string;
+  }>;
+  config: {
+    iiif_url: string;
   };
-  title: string;
 }
 
 /**
  * Return a list of articles with pagination and searching.
- * Return the following props of items: id, title, artist_title, thumbnail, description
+ * Return the following props of items: id, title, artist_title, description, image_id
  */
 export const getArticles = async (
   pagination: Pagination,
   query: string,
-): Promise<ResponseSimpleGet[]> => {
+): Promise<ResponseSimpleGet | null> => {
   try {
     const resp = await axios({
       url: `${API_ARTIC_URL_V1}/artworks/search`,
@@ -33,14 +33,14 @@ export const getArticles = async (
       params: {
         ...pagination,
         q: query,
-        fields: 'id,title,artist_title,thumbnail,description',
+        fields: 'id,title,artist_title,description,image_id',
       },
     });
-    return resp.data.data;
+    return resp.data;
   } catch (error) {
     console.log(error);
   }
-  return [];
+  return null;
 };
 
 /**
@@ -52,7 +52,7 @@ export const getArticleById = async (id: number) => {
       url: `${API_ARTIC_URL_V1}/artworks/${id}`,
       method: 'GET',
     });
-    return resp.data.data;
+    return resp.data;
   } catch (error) {
     console.log(error);
   }
@@ -61,23 +61,23 @@ export const getArticleById = async (id: number) => {
 
 /**
  * Return a list of articles with no pagination and no searching, but fetching by a list of ids.
- * Return the following props of items: id, title, artist_title, thumbnail, description
+ * Return the following props of items: id, title, artist_title, description, image_id
  */
 export const getArticlesById = async (
   ids: number[],
-): Promise<ResponseSimpleGet[]> => {
+): Promise<ResponseSimpleGet | null> => {
   try {
     const resp = await axios({
       url: `${API_ARTIC_URL_V1}/artworks`,
       method: 'GET',
       params: {
         ids: ids.join(','),
-        fields: 'id,title,artist_title,thumbnail,description',
+        fields: 'id,title,artist_title,description,image_id',
       },
     });
-    return resp.data.data;
+    return resp.data;
   } catch (error) {
     console.log(error);
   }
-  return [];
+  return null;
 };

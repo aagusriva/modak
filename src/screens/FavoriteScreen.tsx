@@ -30,7 +30,11 @@ const FavoriteScreen = () => {
   const [data, setData] = useState<CardProps[]>([]);
 
   useEffect(() => {
-    isFocused && fetchData(currentFavorites);
+    if (isFocused) {
+      fetchData(currentFavorites);
+    } else {
+      setData([]);
+    }
   }, [isFocused, currentFavorites]);
 
   /**
@@ -40,16 +44,18 @@ const FavoriteScreen = () => {
     if (currentFavorites.length === 0) return;
     setLoading(true);
     const resp = await getArticlesById(currentFavorites);
-    const formattedData = resp.map(item => {
-      return {
+    if (resp) {
+      const formattedData = resp.data.map(item => ({
         id: item.id,
-        img: item.thumbnail?.lqip || null,
+        img: `${resp.config.iiif_url}/${item.image_id}/full/200,/0/default.jpg`,
         title: item.title,
         author: item.artist_title,
         handlePress: () => handlePressItem(item.id),
-      };
-    });
-    setData(formattedData);
+      }));
+      setData(formattedData);
+    } else {
+      setData([]);
+    }
     setLoading(false);
   };
 
