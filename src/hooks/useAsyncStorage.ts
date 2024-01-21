@@ -5,12 +5,14 @@ import {useEffect, useState} from 'react';
 const useAsyncStorage = () => {
   const [currentFavorites, setCurrentFavorites] = useState<number[]>([]);
   const isFocused = useIsFocused();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     isFocused && fetchFavoritesFromStorage();
   }, [isFocused]);
 
   const fetchFavoritesFromStorage = async () => {
+    setLoading(true);
     try {
       const favorites = await AsyncStorage.getItem('favoritesArtic');
       if (favorites) {
@@ -19,6 +21,7 @@ const useAsyncStorage = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const addNewFavorite = async (id: number, currentFavorites: number[]) => {
@@ -57,6 +60,7 @@ const useAsyncStorage = () => {
     currentFavorites,
     addNewFavorite,
     deleteFavorite,
+    loading
   };
 };
 

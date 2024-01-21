@@ -4,7 +4,10 @@
       "home": "Home",
       "details": "Details"
     },
-    "favorites": "Favorites"
+    "favorites": {
+      "favorites": "Favorites",
+      "details": "Details"
+    }
   },
   "home": {
     "search":{

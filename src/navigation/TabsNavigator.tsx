@@ -1,9 +1,9 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import FavoriteScreen from '../screens/FavoriteScreen';
 import {useTranslation} from 'react-i18next';
 import HomeNavigator from './HomeNavigator';
 import {COLORS} from '../constants/Colors';
 import {Icon} from '@rneui/base';
+import FavoritesNavigator from './FavoritesNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,9 +31,10 @@ const TabsNavigator = () => {
       />
       <Tab.Screen
         name="FavoriteTab"
-        component={FavoriteScreen}
+        component={FavoritesNavigator}
         options={{
-          title: t('tabs.favorites'),
+          headerShown: false,
+          title: t('tabs.favorites.favorites'),
           tabBarIcon: props => (
             <Icon
               type="material"

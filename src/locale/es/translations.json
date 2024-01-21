@@ -4,7 +4,10 @@
       "home": "Inicio",
       "details": "Detalles"
     },
-    "favorites": "Favoritos"
+    "favorites": {
+      "favorites": "Favoritos",
+      "details": "Detalles"
+    }
   },
   "home": {
     "search":{

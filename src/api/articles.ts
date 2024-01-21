@@ -51,3 +51,22 @@ export const getArticleById = async (id: number) => {
   }
   return null;
 };
+
+export const getArticlesById = async (
+  ids: number[],
+): Promise<ResponseSimpleGet[]> => {
+  try {
+    const resp = await axios({
+      url: `${API_ARTIC_URL_V1}/artworks`,
+      method: 'GET',
+      params: {
+        ids: ids.join(','),
+        fields: 'id,title,artist_title,thumbnail,description',
+      },
+    });
+    return resp.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+  return [];
+};
