@@ -16,6 +16,7 @@ import {debounce} from 'lodash';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {COLORS} from '../constants/Colors';
 import {Icon} from '@rneui/base';
+import useAsyncStorage from '../hooks/useAsyncStorage';
 
 const HomeScreen = () => {
   const {t} = useTranslation();
@@ -33,6 +34,7 @@ const HomeScreen = () => {
   });
   const isLoadingMore = useRef(false);
   const noMoreResults = useRef(false);
+  const {currentFavorites, addNewFavorite, deleteFavorite} = useAsyncStorage();
 
   useEffect(() => {
     if (!isFocused) {
@@ -50,13 +52,15 @@ const HomeScreen = () => {
     const resp = await getArticles(pagination, query);
     !searching &&
       (isLoadingMore.current ? setLoadingMore(false) : setLoading(false));
-    const formattedData: CardProps[] = resp.map(item => ({
-      id: item.id,
-      img: item.thumbnail?.lqip || null,
-      title: item.title,
-      author: item.artist_title,
-      handlePress: () => handlePressItem(item.id),
-    }));
+    const formattedData = resp.map(item => {
+      return {
+        id: item.id,
+        img: item.thumbnail?.lqip || null,
+        title: item.title,
+        author: item.artist_title,
+        handlePress: () => handlePressItem(item.id),
+      };
+    });
     if (pagination.page === 1 && formattedData.length === 0) {
       setData([]);
       noMoreResults.current = true;
@@ -116,6 +120,12 @@ const HomeScreen = () => {
     return navigation.navigate('Details', {id});
   };
 
+  const handleFavorite = (isFavorite: boolean, id: number) => {
+    !isFavorite
+      ? addNewFavorite(id, currentFavorites)
+      : deleteFavorite(id, currentFavorites);
+  };
+
   if (loading) return <ActivityIndicator style={{marginTop: 20}} />;
 
   return (
@@ -148,7 +158,13 @@ const HomeScreen = () => {
       />
       <FlatList
         data={data}
-        renderItem={({item}) => <CardItem {...item} />}
+        renderItem={({item}) => (
+          <CardItem
+            {...item}
+            isFavorite={currentFavorites.includes(item.id)}
+            handleFavorite={handleFavorite}
+          />
+        )}
         keyExtractor={item => item.id.toString()}
         onEndReached={loadMore}
       />

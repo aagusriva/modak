@@ -12,7 +12,8 @@ import {
 import {getArticleById} from '../api/articles';
 import RenderHTML from 'react-native-render-html';
 import {Icon} from '@rneui/base';
-import { COLORS } from '../constants/Colors';
+import {COLORS} from '../constants/Colors';
+import useAsyncStorage from '../hooks/useAsyncStorage';
 
 const DEFAULT_IMAGE = require('../../assets/images/artic.png');
 
@@ -26,6 +27,8 @@ const DetailsScreen = () => {
     author: string;
     description: string | undefined | null;
   } | null>(null);
+  const {currentFavorites, addNewFavorite, deleteFavorite} = useAsyncStorage();
+  const isFavorite = currentFavorites.includes(id);
 
   useEffect(() => {
     fetchData(id);
@@ -70,7 +73,17 @@ const DetailsScreen = () => {
         }}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{data.title}</Text>
-          <Icon type="material" name="star" color={COLORS.yellow} size={30} />
+          <Icon
+            type="material"
+            name={isFavorite ? 'star' : 'star-border'}
+            color={COLORS.yellow}
+            size={30}
+            onPress={() =>
+              !isFavorite
+                ? addNewFavorite(id, currentFavorites)
+                : deleteFavorite(id, currentFavorites)
+            }
+          />
         </View>
         <Text style={styles.subtitle}>{data.author}</Text>
         <View style={styles.descriptionContainer}>
