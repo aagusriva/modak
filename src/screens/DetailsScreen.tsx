@@ -14,11 +14,17 @@ import RenderHTML from 'react-native-render-html';
 import {Icon} from '@rneui/base';
 import {COLORS} from '../constants/Colors';
 import useAsyncStorage from '../hooks/useAsyncStorage';
+import {useTranslation} from 'react-i18next';
 
 const DEFAULT_IMAGE = require('../../assets/images/artic.png');
 
+/**
+ * Screen that renders an entire detail of an item.
+ * Should receive an id by route params and with that id fetch the necessary data to render the item
+ */
 const DetailsScreen = () => {
   const route = useRoute();
+  const {t} = useTranslation();
   const id = (route.params as {id: number})?.id;
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<{
@@ -37,12 +43,16 @@ const DetailsScreen = () => {
   const fetchData = async (id: number) => {
     setLoading(true);
     const resp = await getArticleById(id);
-    setData({
-      img: resp.thumbnail?.lqip || null,
-      title: resp.title,
-      author: resp.artist_title,
-      description: resp.description,
-    });
+    setData(
+      resp
+        ? {
+            img: resp.thumbnail?.lqip || null,
+            title: resp.title,
+            author: resp.artist_title,
+            description: resp.description,
+          }
+        : null,
+    );
     setLoading(false);
   };
 
@@ -50,8 +60,8 @@ const DetailsScreen = () => {
 
   if (!data)
     return (
-      <View>
-        <Text>Something wen wrong!</Text>
+      <View style={styles.container}>
+        <Text style={styles.subtitle}>{t('error')}</Text>
       </View>
     );
 

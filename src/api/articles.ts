@@ -18,6 +18,10 @@ interface ResponseSimpleGet {
   title: string;
 }
 
+/**
+ * Return a list of articles with pagination and searching.
+ * Return the following props of items: id, title, artist_title, thumbnail, description
+ */
 export const getArticles = async (
   pagination: Pagination,
   query: string,
@@ -39,6 +43,9 @@ export const getArticles = async (
   return [];
 };
 
+/**
+ * Return a complete article searched by id.
+ */
 export const getArticleById = async (id: number) => {
   try {
     const resp = await axios({
@@ -52,6 +59,10 @@ export const getArticleById = async (id: number) => {
   return null;
 };
 
+/**
+ * Return a list of articles with no pagination and no searching, but fetching by a list of ids.
+ * Return the following props of items: id, title, artist_title, thumbnail, description
+ */
 export const getArticlesById = async (
   ids: number[],
 ): Promise<ResponseSimpleGet[]> => {

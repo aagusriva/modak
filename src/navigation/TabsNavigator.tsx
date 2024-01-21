@@ -7,6 +7,10 @@ import FavoritesNavigator from './FavoritesNavigator';
 
 const Tab = createBottomTabNavigator();
 
+/**
+ * Navigator stack for all application. Use Tabs and there are two of them.
+ * Tabs: HomeTab, FavoriteTab
+ */
 const TabsNavigator = () => {
   const {t} = useTranslation();
 

@@ -16,6 +16,10 @@ export type CardProps = {
 
 const DEFAULT_IMAGE = require('../../../assets/images/artic.png');
 
+/**
+ * Component that renders a custom card as items for differents list
+ * Use an image, a title, the author and an star (optional) to save the item as favorite
+ */
 const CardItem = (props: CardProps) => {
   const {
     id,

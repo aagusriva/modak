@@ -13,5 +13,7 @@
     "search":{
       "placeholder": "Type to search..."
     }
-  }
+  },
+  "error": "Something went wrong!",
+  "noData": "There is no data to show"
 }

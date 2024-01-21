@@ -1,5 +1,4 @@
 import {SearchBar} from '@rneui/themed';
-import axios from 'axios';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -9,6 +8,7 @@ import {
   Platform,
   StyleSheet,
   View,
+  Text,
 } from 'react-native';
 import CardItem, {CardProps} from '../components/CardItem/CardItem';
 import {getArticles} from '../api/articles';
@@ -18,6 +18,10 @@ import {COLORS} from '../constants/Colors';
 import {Icon} from '@rneui/base';
 import useAsyncStorage from '../hooks/useAsyncStorage';
 
+/**
+ * Screen that renders a list of all resumed items.
+ * Search by input if user types something and handles pagination
+ */
 const HomeScreen = () => {
   const {t} = useTranslation();
   const isFocused = useIsFocused();
@@ -37,15 +41,25 @@ const HomeScreen = () => {
   const {currentFavorites, addNewFavorite, deleteFavorite} = useAsyncStorage();
 
   useEffect(() => {
+    isFocused && fetchData(search);
+  }, [isFocused, pagination]);
+
+  useEffect(() => {
+    // When user goes away from this screen we need to reset all states that handles pagination
     if (!isFocused) {
       setSearching(false);
       setSearch('');
-      setData([]);
-    } else {
-      fetchData(search);
+      setPagination({
+        page: 1,
+        limit: 20,
+      });
     }
-  }, [isFocused, pagination]);
+  }, [isFocused]);
 
+  /**
+   * Fetch data from api and map it as card component needs.
+   * Also handles what data save on component state depends on if user are on page 2 or more
+   */
   const fetchData = async (query: string) => {
     !searching &&
       (isLoadingMore.current ? setLoadingMore(true) : setLoading(true));
@@ -61,24 +75,23 @@ const HomeScreen = () => {
         handlePress: () => handlePressItem(item.id),
       };
     });
-    if (pagination.page === 1 && formattedData.length === 0) {
+    if (formattedData.length === 0) {
+      // Stop pagination because there are no more results to come
       setData([]);
       noMoreResults.current = true;
     } else {
       if (pagination.page === 1) {
+        // First render so data are this one, we need to reset the stae
         setData(formattedData);
       } else {
-        if (formattedData.length > 0) {
-          setData(prev => [...prev, ...formattedData]);
-        } else {
-          // Stop pagination because there are no more results to come
-          noMoreResults.current = true;
-        }
+        // Add new data to list at the end becouse user has reached end of list
+        setData(prev => [...prev, ...formattedData]);
       }
     }
     isLoadingMore.current = false;
     setSearching(false);
   };
+  
   /**
    * Handle event to load more data with pagination
    */
@@ -117,7 +130,7 @@ const HomeScreen = () => {
   };
 
   const handlePressItem = (id: number) => {
-    return navigation.navigate('Details', {id});
+    return navigation.navigate(...(['Details', {id}] as never));
   };
 
   const handleFavorite = (isFavorite: boolean, id: number) => {
@@ -158,6 +171,7 @@ const HomeScreen = () => {
       />
       <FlatList
         data={data}
+        ListEmptyComponent={<Text style={styles.noData}>{t('noData')}</Text>}
         renderItem={({item}) => (
           <CardItem
             {...item}
@@ -181,6 +195,12 @@ const styles = StyleSheet.create({
   searchBar: {
     backgroundColor: 'transparent',
     width: Dimensions.get('window').width * 0.94,
+    alignSelf: 'center',
+  },
+  noData: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 10,
     alignSelf: 'center',
   },
 });

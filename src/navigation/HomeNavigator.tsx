@@ -5,6 +5,10 @@ import DetailsScreen from '../screens/DetailsScreen';
 
 const Stack = createNativeStackNavigator();
 
+/**
+ * Navigator stack for home tab
+ * Screns: Home (list of all items), Details (detail screen of a selected item)
+ */
 const HomeNavigator = () => {
   const {t} = useTranslation();
 

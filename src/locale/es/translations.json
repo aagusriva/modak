@@ -13,5 +13,7 @@
     "search":{
       "placeholder": "Escribe para buscar..."
     }
-  }
+  },
+  "error": "Ha ocurrido un error!",
+  "noData": "No hay datos para mostrar"
 }

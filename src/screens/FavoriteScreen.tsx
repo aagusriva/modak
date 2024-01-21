@@ -13,9 +13,13 @@ import useAsyncStorage from '../hooks/useAsyncStorage';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {getArticlesById} from '../api/articles';
 
+/**
+ * Screen that renders a list of resumed items that have been saved as favorites.
+ */
 const FavoriteScreen = () => {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
+  const {t} = useTranslation();
   const [loading, setLoading] = useState(false);
   const {
     currentFavorites,
@@ -29,11 +33,13 @@ const FavoriteScreen = () => {
     isFocused && fetchData(currentFavorites);
   }, [isFocused, currentFavorites]);
 
+  /**
+   * Fetch data from api and map it as card component needs
+   */
   const fetchData = async (currentFavorites: number[]) => {
     if (currentFavorites.length === 0) return;
     setLoading(true);
     const resp = await getArticlesById(currentFavorites);
-    setLoading(false);
     const formattedData = resp.map(item => {
       return {
         id: item.id,
@@ -44,10 +50,11 @@ const FavoriteScreen = () => {
       };
     });
     setData(formattedData);
+    setLoading(false);
   };
 
   const handlePressItem = (id: number) => {
-    return navigation.navigate('FavoritesDetails', {id});
+    return navigation.navigate(...(['FavoritesDetails', {id}] as never));
   };
 
   const handleFavorite = (isFavorite: boolean, id: number) => {
@@ -63,6 +70,7 @@ const FavoriteScreen = () => {
     <View style={styles.container}>
       <FlatList
         data={data}
+        ListEmptyComponent={<Text style={styles.noData}>{t('noData')}</Text>}
         renderItem={({item}) => (
           <CardItem
             {...item}
@@ -84,6 +92,12 @@ const styles = StyleSheet.create({
   searchBar: {
     backgroundColor: 'transparent',
     width: Dimensions.get('window').width * 0.94,
+    alignSelf: 'center',
+  },
+  noData: {
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 10,
     alignSelf: 'center',
   },
 });
