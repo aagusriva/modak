@@ -1,0 +1,19 @@
+{
+  "tabs": {
+    "home": {
+      "home": "Home",
+      "details": "Details"
+    },
+    "favorites": {
+      "favorites": "Favorites",
+      "details": "Details"
+    }
+  },
+  "home": {
+    "search":{
+      "placeholder": "Type to search..."
+    }
+  },
+  "error": "Something went wrong!",
+  "noData": "There is no data to show"
+}

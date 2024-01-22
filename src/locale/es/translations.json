@@ -1,0 +1,19 @@
+{
+  "tabs": {
+    "home": {
+      "home": "Inicio",
+      "details": "Detalles"
+    },
+    "favorites": {
+      "favorites": "Favoritos",
+      "details": "Detalles"
+    }
+  },
+  "home": {
+    "search":{
+      "placeholder": "Escribe para buscar..."
+    }
+  },
+  "error": "Ha ocurrido un error!",
+  "noData": "No hay datos para mostrar"
+}
